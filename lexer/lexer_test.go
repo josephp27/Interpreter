@@ -1,11 +1,9 @@
 package lexer
 
 import (
-	"testing"
-
 	"github.com/stretchr/testify/assert"
-
-	"../token"
+	"monkeylang/token"
+	"testing"
 )
 
 func TestNextToken(t *testing.T) {
@@ -26,11 +24,11 @@ func TestNextToken(t *testing.T) {
 	}
 	actual := New(input)
 
-	for i, tt := range tests {
+	for _, tt := range tests {
 
-		nextToken := actual.NextToken()
+		tok := actual.NextToken()
 
-		assert.Equal(nextToken.Type, tt.expectedType, "not equal")
-		assert.Equal(nextToken.Literal, tt.expectedLiteral, "not equal")
+		assert.Equal(t, tok.Type, tt.expectedType, "not equal")
+		assert.Equal(t, tok.Literal, tt.expectedLiteral, "not equal")
 	}
 }
