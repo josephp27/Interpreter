@@ -2,7 +2,7 @@ package lexer
 
 import (
 	"github.com/stretchr/testify/assert"
-	"monkeylang/token"
+	"monkeylang/src/token"
 	"testing"
 )
 
