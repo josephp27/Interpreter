@@ -43,12 +43,14 @@ func TestMonkeyCode(t *testing.T) {
 			  
               !-/*5;
 			  5 < 10 > 5;
+			  if (5 < 10) {
+                  return true;
+              } else {
+                  return false;
+              }
               `
 
-	tests := []struct {
-		expectedType    token.TokenType
-		expectedLiteral string
-	}{
+	tests := []token.Token{
 		{token.LET, "let"},
 		{token.IDENT, "five"},
 		{token.ASSIGN, "="},
@@ -97,28 +99,41 @@ func TestMonkeyCode(t *testing.T) {
 		{token.GT, ">"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
+		{token.IF, "if"},
+		{token.LPAREN, "("},
+		{token.INT, "5"},
+		{token.LT, "<"},
+		{token.INT, "10"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
+		{token.ELSE, "else"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.FALSE, "false"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
 		{token.EOF, ""},
 	}
 
-	actual := New(input)
+	response := New(input)
 
-	for i, tt := range tests {
-		tok := actual.NextToken()
-		if tok.Type != tt.expectedType {
-			t.Fatalf(
-				"tests[%d] - tokentype wrong. expected=%q, actual=%q",
-				i,
-				tt.expectedType,
-				tok.Type,
-			)
-		}
-		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf(
-				"tests[%d] - literal wrong. expected=%q, actual=%q",
-				i,
-				tt.expectedLiteral,
-				tok.Literal,
-			)
-		}
+	for i, expected := range tests {
+		actual := response.NextToken()
+		assertEquals(t, i, actual, expected)
+	}
+}
+
+func assertEquals(t *testing.T, i int, actual token.Token, expected token.Token) {
+	if actual != expected {
+		t.Fatalf(
+			"tests[%d] \n\t\t actual   = %q \n\t\t expected = %q",
+			i,
+			actual,
+			expected,
+		)
 	}
 }
