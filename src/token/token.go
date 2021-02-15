@@ -1,5 +1,9 @@
 package token
 
+import (
+	"monkeylang/src/ast"
+)
+
 const (
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"
@@ -15,8 +19,8 @@ const (
 	SLASH    = "/"
 	LT       = "<"
 	GT       = ">"
-	EQ = "=="
-	NOT_EQ = "!="
+	EQ       = "=="
+	NOT_EQ   = "!="
 	// Delimiters
 	COMMA     = ","
 	SEMICOLON = ";"
@@ -60,3 +64,27 @@ func LookupIdent(ident string) TokenType {
 	return IDENT
 }
 
+type LetStatement struct {
+	Token Token // the token.LET token Name *Identifier
+	Value ast.Expression
+}
+
+func (ls *LetStatement) statementNode() {
+
+}
+
+func (ls *LetStatement) TokenLiteral() string {
+	return ls.Token.Literal
+}
+
+type Identifier struct {
+	Token Token // the token.IDENT token Value string
+}
+
+func (i *Identifier) expressionNode() {
+
+}
+
+func (i *Identifier) TokenLiteral() string {
+	return i.Token.Literal
+}
