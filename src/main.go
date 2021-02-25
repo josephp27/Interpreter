@@ -16,5 +16,5 @@ func main() {
 	}
 
 	fmt.Printf("Hello %s! Monkey v0.0.0\n", usr.Username)
-	repl.Start(os.Stdin)
+	repl.Start(os.Stdin, os.Stdout)
 }
